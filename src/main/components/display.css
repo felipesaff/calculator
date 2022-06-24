@@ -1,0 +1,13 @@
+.display{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 5px;
+    grid-column: span 4;
+    /* border-radius: 5px; */
+}
+.number{
+    color: #f0f0f0;
+    font-size: 2rem;
+}

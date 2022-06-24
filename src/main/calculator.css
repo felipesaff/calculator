@@ -1,0 +1,10 @@
+.calculator{
+    width: 320px;
+    height: 400px;
+    background-color: #505050;
+    padding: 5px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    overflow: hidden;
+}

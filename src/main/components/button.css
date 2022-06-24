@@ -1,0 +1,32 @@
+:root{
+    --bg-light: #e0e0e0;
+    --bg-dark: #cecece;
+}
+.botoes{
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-template-rows: 48px 48px 48px 48px 48px;
+    grid-column: span 4;
+}
+.botao{
+    background-color: var(--bg-light);
+    border: none;
+    margin: 1px;
+    border-radius: 3px;
+}
+.botao:active{
+    background-color: var(--bg-dark);
+}
+.botao.duplo{
+    grid-column: span 2;
+}
+.botao.triplo{
+    grid-column: span 3;
+}
+.botao.operador{
+    background-color: #ff8811;
+    color: #ffffff;
+}
+.botao.operador:active{
+    background-color: #ee7700;
+}
