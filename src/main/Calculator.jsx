@@ -29,7 +29,8 @@ class Calculator extends Component {
         }
         if(n === '.' && this.state.displayValue === '0') {
             // just an aesthetic adjust
-            return this.setState({displayValue: '0.'})
+            this.setState({displayValue: '0.'});
+            return
         }
         if(this.state.displayValue.length >= 16) {
             // max length to avoid brake the component css
@@ -47,6 +48,7 @@ class Calculator extends Component {
             const values = [...this.state.values]
             values[i] = NewValue
             this.setState({values})
+            return
         }
     }
 
@@ -59,10 +61,10 @@ class Calculator extends Component {
         const currentIndex = this.state.currentIndex
         if(currentIndex === 0){
             if(oper === '='){
-
                 return
             }
             this.setState({currentIndex: 1, resetValues: true, operation: oper})
+            return
         } else{
             let result = null;
             switch (this.state.operation) {
@@ -86,13 +88,14 @@ class Calculator extends Component {
                 this.setState({...initialState});
                 return;
             }
-            if(result.toString().length >= 17) {
+            if(result.toFixed(3).toString().length >= 17) {
                 this.setState({displayValue: 'operation not permited, too long result'})
                 return;
             }
             values[0] = parseFloat(result.toFixed(3))
-            const valueToDisplay = result.toString()
+            const valueToDisplay = result.toFixed(3).toString()
             this.setState({displayValue: valueToDisplay, currentIndex: 0, values, resetValues: true})
+            return
         }
     }
 
