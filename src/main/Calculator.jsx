@@ -7,11 +7,11 @@ const initialState = {
     displayValue: '0',
     values: [0,0],
     currentIndex: 0,
-    operation: null,
+    operation: '',
     resetValues: false
 }
 
-export default class Calculator extends Component {
+class Calculator extends Component {
 
     state = {...initialState};
 
@@ -21,12 +21,19 @@ export default class Calculator extends Component {
         this.operador = this.operador.bind(this)
         this.allClean = this.allClean.bind(this)
     }
+
     addNum = n => {
         if(n === '.' && this.state.displayValue.includes('.')) {
+            // prevent to add two or more '.'
             return
         }
         if(n === '.' && this.state.displayValue === '0') {
+            // just an aesthetic adjust
             return this.setState({displayValue: '0.'})
+        }
+        if(this.state.displayValue.length >= 16) {
+            // max length to avoid brake the component css
+            return
         }
         const clearDisplay = this.state.displayValue === '0' ||
                             this.state.resetValues;
@@ -42,11 +49,17 @@ export default class Calculator extends Component {
             this.setState({values})
         }
     }
+
     operador = oper => {
+        if(this.state.displayValue.length >= 16) {
+            // max length to avoid brake the component css
+            return
+        }
         let values = [...this.state.values]
         const currentIndex = this.state.currentIndex
         if(currentIndex === 0){
             if(oper === '='){
+
                 return
             }
             this.setState({currentIndex: 1, resetValues: true, operation: oper})
@@ -54,37 +67,55 @@ export default class Calculator extends Component {
             let result = null;
             switch (this.state.operation) {
                 case '/':
-                    result = parseFloat((values[0] / values[1]).toFixed(3));
+                    result = values[0] / values[1];
                     break;
                 case '*':
-                    result = parseFloat((values[0] * values[1]).toFixed(3));
+                    result = values[0] * values[1];
                     break;
                 case '-':
-                    result = parseFloat((values[0] - values[1]).toFixed(3));
+                    result = values[0] - values[1];
                     break;
                 case '+':
-                    result = parseFloat((values[0] + values[1]).toFixed(3));
+                    result = values[0] + values[1]
                     break;
                 default:
                     break;
             }
             if(isNaN(result)) {
+                // prevent bug like 0/0 operation
                 this.setState({...initialState});
                 return;
             }
-            values[0] = result
+            values[0] = parseFloat(result.toFixed(3))
             const valueToDisplay = result.toString()
             this.setState({displayValue: valueToDisplay, currentIndex: 0, values, resetValues: true})
         }
     }
+
     cleanCurrent = _ => {
+        // reset only the current value on display
         if(this.state.displayValue !== '0') {
             this.setState({displayValue: '0'})
         }
     }
+
     allClean = _ => {
         this.setState({...initialState})
     }
+    arrayNumbers = ['0','1','2','3','4','5','6','7','8','9'];
+    arrayOperators = ['/','*','-','+','='];
+
+    componentDidMount() {
+        document.addEventListener('keyup', (event) => {
+            if(this.arrayNumbers.includes(event.key)) {
+                let numTyped = parseInt(event.key)
+                this.addNum(numTyped)
+            }else if(this.arrayOperators.includes(event.key)) {
+                this.operador(event.key)
+            }
+        })
+    }
+
     render() {
         return (
             <>
@@ -116,3 +147,5 @@ export default class Calculator extends Component {
         )
     }
 }
+
+export default Calculator
