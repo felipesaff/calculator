@@ -93,8 +93,8 @@ class Calculator extends Component {
                 return;
             }
             values[0] = parseFloat(result.toFixed(3))
-            const valueToDisplay = result.toFixed(3).toString()
-            this.setState({displayValue: valueToDisplay, currentIndex: 0, values, resetValues: true})
+            const displayValue = parseFloat(result.toFixed(3))
+            this.setState({displayValue, currentIndex: 0, values, resetValues: true})
             return
         }
     }
