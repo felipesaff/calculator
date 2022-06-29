@@ -86,6 +86,10 @@ class Calculator extends Component {
                 this.setState({...initialState});
                 return;
             }
+            if(result.toString().length >= 17) {
+                this.setState({displayValue: 'operation not permited, too long result'})
+                return;
+            }
             values[0] = parseFloat(result.toFixed(3))
             const valueToDisplay = result.toString()
             this.setState({displayValue: valueToDisplay, currentIndex: 0, values, resetValues: true})
